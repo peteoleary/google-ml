@@ -46,4 +46,35 @@ history = trainer.train()
 
 from cats_and_dogs_plot import Plot
 
-Plot().plot(history)
+plotter = Plot()
+
+plotter.plot(history)
+
+if check_flag('fine_tune'):
+    from tensorflow.keras.optimizers import SGD
+
+    unfreeze = False
+
+    # Unfreeze all models after "mixed6"
+    for layer in pre_trained_model.layers:
+      if unfreeze:
+        layer.trainable = True
+      if layer.name == 'mixed6':
+        unfreeze = True
+
+    # As an optimizer, here we will use SGD 
+    # with a very low learning rate (0.00001)
+    model.compile(loss='binary_crossentropy',
+                  optimizer=SGD(
+                      lr=0.00001, 
+                      momentum=0.9),
+                  metrics=['acc'])
+    history = model.fit_generator(
+      train_generator,
+      steps_per_epoch=100,
+      epochs=50,
+      validation_data=validation_generator,
+      validation_steps=50,
+      verbose=2)
+    
+    plotter.plot(history)
