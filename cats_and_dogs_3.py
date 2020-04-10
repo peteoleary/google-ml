@@ -1,3 +1,6 @@
+import cats_and_dogs_files
+from cats_and_dogs_files import check_flag
+
 from tensorflow.keras.applications.inception_v3 import InceptionV3
 
 local_weights_file = 'inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5'
@@ -35,4 +38,12 @@ model.compile(loss='binary_crossentropy',
               optimizer=RMSprop(lr=0.0001),
               metrics=['acc'])
 
-import cats_and_dogs_shared
+from cats_and_dogs_train import Training
+
+trainer = Training(model, 3)
+
+history = trainer.train()
+
+from cats_and_dogs_plot import Plot
+
+Plot().plot(history)
