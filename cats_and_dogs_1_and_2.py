@@ -1,4 +1,5 @@
 import cats_and_dogs_files
+from cats_and_dogs_files import check_flag
 
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
@@ -153,4 +154,8 @@ if check_flag('show_intermediate'):
 
     print("done calculating display...", flush=True)
     
-import cats_and_dogs_plot
+from cats_and_dogs_plot import Plot
+
+plotter = Plot()
+
+plotter.plot(history)
